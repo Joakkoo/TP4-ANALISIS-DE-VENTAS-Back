@@ -1,9 +1,11 @@
     const express = require('express');
-    const ventasController = require('../controllers/salesController');
+    const { getUserPdfs, uploadAndRecommend}= require('../controllers/salesController');
+    const { authenticateToken } = require('../middlewares/authMiddleware');
 
     const router = express.Router();
 
-    // Ruta para subir el PDF y obtener recomendaciones
-    router.post('/upload-recommend', ventasController.uploadAndRecommend);
+    router.post('/upload-recommend', authenticateToken, uploadAndRecommend);
+    //Trae los pdf
+    router.get('/user-pdfs', authenticateToken, getUserPdfs);
 
     module.exports = router;

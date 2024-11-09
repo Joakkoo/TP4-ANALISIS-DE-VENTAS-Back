@@ -1,6 +1,6 @@
 const pdf = require('pdf-parse');
 const PDF = require('../models/pdfs');
-const OpenAI = require('openai');  // Importa el paquete completo
+const OpenAI = require('openai');
 const Recomendacion = require('../models/recommendation');
 const User = require('../models/user');
 
@@ -66,12 +66,12 @@ exports.uploadAndRecommend = async (req, res) => {
         const messages = [
             {
                 role: "system",
-                content: `Analiza el historial o lista de ventas proporcionado para ofrecer recomendaciones personalizadas sobre promociones, sugerencias de productos, y análisis de ventas.
+                content: `Analiza el historial o lista de ventas proporcionado para ofrecer recomendaciones personalizadas sobre promociones, ofertas de productos mas vendidos, combos de productos segun cuales se venden juntos mas cantidad de veces, sugerencias de productos, y análisis de ventas.
                 Debes interpretar la información del PDF para encontrar patrones de compra, identificar el producto más vendido, sugerir qué productos promocionar y recomendar ofertas que se alineen con las tendencias observadas.`
             },
             {
                 role: "user",
-                content: `Este es un historial de ventas: ${textoPDF}. ¿Qué productos recomendarías como complementarios?`
+                content: `Este es un historial de ventas: ${textoPDF}. ¿Qué promociones recomendarias hacer? ¿Qué combos de productos se podrian armar para la venta?`
             },
             {
                 role: "user",
@@ -83,7 +83,7 @@ exports.uploadAndRecommend = async (req, res) => {
         const response = await openai.chat.completions.create({
             model: "gpt-4",
             messages: messages,
-            max_tokens: 1000
+            max_tokens: 1500
         });
 
 
